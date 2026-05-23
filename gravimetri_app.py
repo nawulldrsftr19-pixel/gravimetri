@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # Konfigurasi halaman
 st.set_page_config(page_title="Kalkulator Analisis Kimia", layout="wide")
@@ -40,4 +42,21 @@ if weight_initial > 0:
     # Grafik batang
     st.subheader("📈 Visualisasi Hasil")
     fig, ax = plt.subplots()
-    ax.bar(results.keys(), results.values(), color=["#4CAF50","#FFC107","#2196F3","#
+    ax.bar(results.keys(), results.values(), color=["#4CAF50","#FFC107","#2196F3","#9C27B0","#FF5722"])
+    ax.set_ylabel("Persentase (%)")
+    ax.set_title(f"Hasil Analisis {sample_name}")
+    st.pyplot(fig)
+
+    # Simulasi perubahan berat
+    st.subheader("🧪 Simulasi Perubahan Berat Sampel")
+    weights = [weight_initial, weight_dry, weight_ash]
+    labels = ["Awal", "Setelah Pengeringan", "Abu"]
+    fig2, ax2 = plt.subplots()
+    ax2.plot(labels, weights, marker="o", linestyle="--", color="red")
+    ax2.set_ylabel("Berat (g)")
+    ax2.set_title("Perubahan Berat Selama Analisis")
+    st.pyplot(fig2)
+
+    st.success("✅ Perhitungan dan simulasi selesai.")
+else:
+    st.warning("⚠️ Masukkan berat awal sampel lebih dari 0 untuk memulai perhitungan.")
