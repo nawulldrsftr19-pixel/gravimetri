@@ -1,6 +1,4 @@
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 
 # Judul dan Deskripsi
 st.set_page_config(page_title="Web Analisis Kimia", layout="wide")
