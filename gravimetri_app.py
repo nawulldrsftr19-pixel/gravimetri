@@ -7,7 +7,7 @@ st.markdown("Platform interaktif untuk menghitung **kadar air, abu, sulfat, Fe, 
 
 # Sidebar untuk input data
 st.sidebar.header("📥 Input Data Sampel")
-sample_name = st.sidebar.text_input("Nama Sampel", "Sampel A")
+sample_name = st.sidebar.text_input("Nama Sampel", "Sampel tepung terigu")
 weight_initial = st.sidebar.number_input("Berat Awal Sampel (g)", min_value=0.0, value=5.0)
 weight_dry = st.sidebar.number_input("Berat Setelah Pengeringan (g)", min_value=0.0, value=4.5)
 weight_ash = st.sidebar.number_input("Berat Abu (g)", min_value=0.0, value=0.2)
