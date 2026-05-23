@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -21,4 +20,8 @@ weight_fe2o3 = st.sidebar.number_input("Fe₂O₃ Precipitate Weight (g)", min_v
 
 # Calculations
 if weight_initial > 0:
-
+    # Perform calculations
+    moisture = ((weight_initial - weight_dry) / weight_initial) * 100
+    ash = (weight_ash / weight_initial) * 100
+    sulfate = (weight_baso4 * 96.06 / 233.39 / weight_initial) * 100   # M(SO4)=96.06, M(BaSO4)=233.39
+    iron
