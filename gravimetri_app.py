@@ -1,25 +1,45 @@
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# Page configuration
-st.set_page_config(page_title="Chemical Analysis Calculator", layout="wide")
+# Konfigurasi halaman
+st.set_page_config(page_title="Kalkulator Analisis Kimia", layout="wide")
 
-# Title
-st.title ("🔬 Chemical Analysis Calculator")
-st.markdown ("Automatically calculate **moisture content, ash content, sulfate, Fe, and Ba** from lab data.")
+# Judul
+st.title("🔬 Kalkulator Analisis Kimia")
+st.write("Hitung **Kadar Air, Abu, Sulfat, Besi (Fe), dan Barium (Ba)** dari data praktikum secara otomatis.")
 
 # Sidebar input
-st.sidebar.header ("📥 Sample Data Input")
-sample_name = st.sidebar.text_input ("Sample Name", "Sample A")
-weight_initial = st.sidebar.number_input ("Initial Sample Weight (g)", min_value=0.0, value=5.0, step=0.01)
-weight_dry = st.sidebar.number_input ("Weight After Drying (g)", min_value=0.0, value=4.5, step=0.01)
-weight_ash = st.sidebar.number_input ("Ash Weight (g)", min_value=0.0, value=0.2, step=0.01)
-weight_baso4 = st.sidebar.number_input ("BaSO₄ Precipitate Weight (g)", min_value=0.0, value=0.5, step=0.01)
-weight_fe2o3 = st.sidebar.number_input ("Fe₂O₃ Precipitate Weight (g)", min_value=0.0, value=0.3, step=0.01)
+st.sidebar.header("📥 Input Data Sampel")
+sample_name = st.sidebar.text_input("Nama Sampel", "Sampel A")
+weight_initial = st.sidebar.number_input("Berat Awal Sampel (g)", min_value=0.0, value=5.0, step=0.01)
+weight_dry = st.sidebar.number_input("Berat Setelah Pengeringan (g)", min_value=0.0, value=4.5, step=0.01)
+weight_ash = st.sidebar.number_input("Berat Abu (g)", min_value=0.0, value=0.2, step=0.01)
+weight_baso4 = st.sidebar.number_input("Berat Endapan BaSO₄ (g)", min_value=0.0, value=0.5, step=0.01)
+weight_fe2o3 = st.sidebar.number_input("Berat Endapan Fe₂O₃ (g)", min_value=0.0, value=0.3, step=0.01)
 
-# Calculations
+# Perhitungan hanya dilakukan jika berat awal > 0
 if weight_initial > 0:
-    # Perform calculations
-    moisture = ((weight_initial - weight_dry) / weight_initial) * 100
-    ash = (weight_ash / weight_initial) * 100
-    sulfate = (weight_baso4 * 96.06 / 233.39 / weight_initial) * 100   # M(SO4)=96.06, M(BaSO4)=233.39
-    iron
+    # Rumus perhitungan
+    kadar_air = ((weight_initial - weight_dry) / weight_initial) * 100
+    kadar_abu = (weight_ash / weight_initial) * 100
+    kadar_sulfat = (weight_baso4 * 96.06 / 233.39 / weight_initial) * 100   # M(SO4)=96.06, M(BaSO4)=233.39
+    kadar_fe = (weight_fe2o3 * (2*55.85) / 159.7 / weight_initial) * 100    # M(Fe2O3)=159.7
+    kadar_ba = (weight_baso4 * 137.33 / 233.39 / weight_initial) * 100      # M(Ba)=137.33
+
+    # Tabel hasil
+    st.subheader("📊 Hasil Perhitungan")
+    results = {
+        "Kadar Air (%)": round(kadar_air, 2),
+        "Kadar Abu (%)": round(kadar_abu, 2),
+        "Kadar Sulfat (%)": round(kadar_sulfat, 2),
+        "Kadar Besi (Fe) (%)": round(kadar_fe, 2),
+        "Kadar Barium (Ba) (%)": round(kadar_ba, 2),
+    }
+    df = pd.DataFrame.from_dict(results, orient="index", columns=["Nilai"])
+    st.dataframe(df)
+
+    # Grafik batang
+    st.subheader("📈 Visualisasi Hasil")
+    fig, ax = plt.subplots()
+    ax.bar(results.keys(), results.values(), color=["#4CAF50","#FFC107","#2196F3","#
